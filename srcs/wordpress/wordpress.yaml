@@ -1,7 +1,7 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    setup.sh                                           :+:      :+:    :+:    #
+#    wordpress.yaml                                     :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
@@ -10,15 +10,35 @@
 #                                                                              #
 # **************************************************************************** #
 
-minikube start
-
-
-
-#install metallb
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
-kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
-minikube addons enable metallb
-kubectl apply -f srcs/metallb-config.yaml
-
-	
+metadata:
+    name: wordpress-deployment
+    labels:
+        app: wordpress
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: wordpress
+    template:
+        metadata:
+            labels:
+                app: wordpress
+        spec:
+            containers:
+                name: wordpress
+                image: bulletinboard:1.0
+                ports:
+                    containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: wordpress-entrypoint
+spec:
+    type: LoadBalancer
+    selector:
+        app: wordpress
+    ports:
+        port: 5050
+        targetPort: 80
+        nodePort: 30001
