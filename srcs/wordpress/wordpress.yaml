@@ -10,35 +10,55 @@
 #                                                                              #
 # **************************************************************************** #
 
-metadata:
-    name: wordpress-deployment
-    labels:
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels: 
+    app: wordpress
+  name: wordpress-deployment
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: wordpress
+  template: 
+    metadata: 
+      labels: 
         app: wordpress
-spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: wordpress
-    template:
-        metadata:
-            labels:
-                app: wordpress
-        spec:
-            containers:
-                name: wordpress
-                image: bulletinboard:1.0
-                ports:
-                    containerPort: 80
+    spec: 
+      containers:
+      - name: wordpress 
+        env: 
+        - name: DB_NAME
+          value: wordpress
+        - name: DB_HOST
+          value: mysql
+        - name: DB_USER
+          valueFrom: 
+            secretKeyRef: 
+              key: user
+              name: wp-secret
+        - name: DB_PASSWORD
+          valueFrom: 
+            secretKeyRef: 
+              key: password
+              name: wp-secret
+        image: wordpress
+        imagePullPolicy: Never
+        ports: 
+        - containerPort: 5050
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
     name: wordpress-entrypoint
 spec:
-    type: LoadBalancer
-    selector:
-        app: wordpress
-    ports:
-        port: 5050
-        targetPort: 80
-        nodePort: 30001
+  type: LoadBalancer
+  selector:
+    app: wordpress
+  ports:
+  - port: 5050
+    targetPort: 5050
+    nodePort: 30001
