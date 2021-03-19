@@ -20,11 +20,14 @@ RUN		apk add --no-cache php7 php7-fpm php7-opcache php7-gd\
 		php7-iconv php7-pdo_dblib php7-ctype nginx openrc openssl
 #RUN 	apk add telegraf --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
 
+#COPY ./telegraf.conf /etc/telegraf/telegraf.conf
+
 RUN		mkdir -p /var/www/
 RUN		wget https://wordpress.org/latest.tar.gz
-RUN		tar xvzf latest.tar.gz
+RUN		tar xzf latest.tar.gz
 RUN		mv ./wordpress /var/www/
 RUN		rm -rf latest.tar.gz
+COPY	wp-config.php /var/www/wordpress
 
 RUN 	openssl req -x509 -nodes -days 365 -subj "/C=FR/ST=IDF/O=42/CN=localhost" \
 		-addext "subjectAltName=DNS:localhost" -newkey rsa:4096\
@@ -32,7 +35,7 @@ RUN 	openssl req -x509 -nodes -days 365 -subj "/C=FR/ST=IDF/O=42/CN=localhost" \
 		-out /etc/ssl/certs/nginx-selfsigned.crt
 RUN 	mkdir -p /run/nginx
 COPY	nginx.conf /etc/nginx/conf.d/default.conf
-#COPY ./telegraf.conf /etc/telegraf/telegraf.conf
 
 EXPOSE	5050
 CMD php-fpm7 && nginx -g 'daemon off;'
+#CMD telegraf && php-fpm7 && nginx -g 'daemon off;'

@@ -36,7 +36,7 @@ spec:
           value: mysql
         - name: DB_USER
           valueFrom: 
-            secretKeyRef: 
+            secretKeyRef:
               key: user
               name: wp-secret
         - name: DB_PASSWORD
@@ -54,6 +54,8 @@ apiVersion: v1
 kind: Service
 metadata:
     name: wordpress-entrypoint
+    annotations:
+      metallb.universe.tf/allow-shared-ip: entrypoint
 spec:
   type: LoadBalancer
   selector:
@@ -61,4 +63,3 @@ spec:
   ports:
   - port: 5050
     targetPort: 5050
-    nodePort: 30001
