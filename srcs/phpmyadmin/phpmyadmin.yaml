@@ -1,0 +1,53 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    wordpress.yaml                                     :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/03/07 12:21:47 by rgilles           #+#    #+#              #
+#    Updated: 2021/03/07 12:21:49 by rgilles          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels: 
+    app: phpmyadmin
+  name: phpmyadmin-deployment
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: phpmyadmin
+  template: 
+    metadata: 
+      labels: 
+        app: phpmyadmin
+    spec: 
+      containers:
+      - name: phpmyadmin 
+        env: 
+        - name: DB_HOST
+          value: mysql-entrypoint.default.svc.cluster.local
+        image: phpmyadmin
+        imagePullPolicy: Never
+        ports: 
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: phpmyadmin-entrypoint
+    annotations:
+      metallb.universe.tf/allow-shared-ip: entrypoint
+spec:
+  type: LoadBalancer
+  selector:
+    app: phpmyadmin
+  ports:
+  - port: 5000
+    targetPort: 5000

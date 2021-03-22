@@ -1,7 +1,7 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    setup.sh                                           :+:      :+:    :+:    #
+#    wordpress.yaml                                     :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
@@ -10,21 +10,46 @@
 #                                                                              #
 # **************************************************************************** #
 
-minikube start
-eval $(minikube docker-env)
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels: 
+    app: nginx
+  name: nginx-deployment
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: nginx
+  template: 
+    metadata: 
+      labels: 
+        app: nginx
+    spec: 
+      containers:
+      - name: nginx
+        image: nginx
+        imagePullPolicy: Never
+        ports: 
+        - containerPort: 80
+        - containerPort: 443
 
-minikube addons enable metallb
-kubectl apply -f srcs/metallb-config.yaml
-
-docker build -t mysql srcs/mysql
-kubectl apply -f srcs/mysql/secret.yaml
-kubectl apply -f srcs/mysql/mysql.yaml
-
-docker build -t wordpress srcs/wordpress
-kubectl apply -f srcs/wordpress/wordpress.yaml
-
-docker build -t phpmyadmin srcs/phpmyadmin
-kubectl apply -f srcs/phpmyadmin/phpmyadmin.yaml
-
-docker build -t nginx srcs/nginx
-kubectl apply -f srcs/nginx/nginx.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: nginx-entrypoint
+    annotations:
+      metallb.universe.tf/allow-shared-ip: entrypoint
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    targetPort: 80
+    name: http
+  - port: 443
+    targetPort: 443
+    name: https
