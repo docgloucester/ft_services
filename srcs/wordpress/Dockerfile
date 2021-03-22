@@ -36,6 +36,9 @@ RUN 	openssl req -x509 -nodes -days 365 -subj "/C=FR/ST=IDF/O=42/CN=localhost" \
 RUN 	mkdir -p /run/nginx
 COPY	nginx.conf /etc/nginx/conf.d/default.conf
 
+RUN		sed -i 's/nobody/root/g' /etc/php7/php-fpm.d/www.conf
+RUN		echo "clear_env = no" >> /etc/php7/php-fpm.d/www.conf 
+
 EXPOSE	5050
-CMD php-fpm7 && nginx -g 'daemon off;'
+CMD php-fpm7 -R && nginx -g 'daemon off;'
 #CMD telegraf && php-fpm7 && nginx -g 'daemon off;'

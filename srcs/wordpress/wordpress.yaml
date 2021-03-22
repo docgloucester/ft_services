@@ -33,7 +33,7 @@ spec:
         - name: DB_NAME
           value: wordpress
         - name: DB_HOST
-          value: mysql-entrypoint
+          value: mysql-entrypoint.default.svc.cluster.local
         - name: DB_USER
           valueFrom: 
             secretKeyRef:

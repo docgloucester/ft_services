@@ -16,6 +16,9 @@ eval $(minikube docker-env)
 minikube addons enable metallb
 kubectl apply -f srcs/metallb-config.yaml
 
+docker build -t mysql srcs/mysql
+kubectl apply -f srcs/mysql/secret.yaml
+kubectl apply -f srcs/mysql/mysql.yaml
+
 docker build -t wordpress srcs/wordpress
-kubectl apply -f srcs/wordpress/secret.yaml
 kubectl apply -f srcs/wordpress/wordpress.yaml
