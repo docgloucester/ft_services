@@ -30,8 +30,6 @@ spec:
       containers:
       - name: mysql
         env:
-        - name: DB_NAME
-          value: wordpress
         - name: DB_USER
           valueFrom: 
             secretKeyRef:

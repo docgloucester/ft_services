@@ -30,8 +30,6 @@ spec:
       containers:
       - name: wordpress 
         env: 
-        - name: DB_NAME
-          value: wordpress
         - name: DB_HOST
           value: mysql-entrypoint.default.svc.cluster.local
         - name: DB_USER
