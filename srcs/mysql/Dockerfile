@@ -19,6 +19,8 @@ RUN		apk add --no-cache mariadb
 
 COPY my.cnf /etc/mysql/my.cnf
 COPY setup.sh /tmp/setup.sh
+COPY db.sql /tmp/db.sql
+COPY db1.sql /tmp/db1.sql
 
 EXPOSE	3306
 CMD /tmp/setup.sh
