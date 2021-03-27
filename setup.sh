@@ -16,6 +16,13 @@ eval $(minikube docker-env)
 minikube addons enable metallb
 kubectl apply -f srcs/metallb-config.yaml
 
+docker build -t influxdb srcs/influxdb
+kubectl apply -f srcs/influxdb/secret.yaml
+kubectl apply -f srcs/influxdb/influxdb.yaml
+
+#let influxdb start
+sleep 30
+
 docker build -t mysql srcs/mysql
 kubectl apply -f srcs/mysql/secret.yaml
 kubectl apply -f srcs/mysql/mysql.yaml

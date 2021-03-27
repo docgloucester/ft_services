@@ -15,56 +15,56 @@ apiVersion: apps/v1
 kind: Deployment
 metadata: 
   labels: 
-    app: mysql
-  name: mysql-deployment
+    app: influxdb
+  name: influxdb-deployment
 spec: 
   replicas: 1
   selector: 
     matchLabels: 
-      app: mysql
+      app: influxdb
   template: 
     metadata: 
       labels: 
-        app: mysql
+        app: influxdb
     spec: 
       containers:
-      - name: mysql
+      - name: influxdb
         env:
         - name: DB_USER
           valueFrom: 
             secretKeyRef:
               key: user
-              name: wp-secret
+              name: influxdb-secret
         - name: DB_PASSWORD
           valueFrom: 
             secretKeyRef: 
               key: password
-              name: wp-secret
+              name: influxdb-secret
         - name: DB_ROOTPASSWORD
           valueFrom: 
             secretKeyRef: 
               key: root-password
-              name: wp-secret
-        image: mysql
+              name: influxdb-secret
+        image: influxdb
         imagePullPolicy: Never
         volumeMounts:
-        - name: mysql-storage
-          mountPath: /var/lib/mysql
+        - name: influxdb-storage
+          mountPath: /root/.influxdb
         ports: 
-        - containerPort: 3306
+        - containerPort: 8086
       volumes:
-      - name: mysql-storage
+      - name: influxdb-storage
         emptyDir: {}
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-    name: mysql-entrypoint
+    name: influxdb-entrypoint
 spec:
   type: ClusterIP
   selector:
-    app: mysql
+    app: influxdb
   ports:
-  - port: 3306
-    targetPort: 3306
+  - port: 8086
+    targetPort: 8086
