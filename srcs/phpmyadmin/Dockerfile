@@ -17,10 +17,10 @@ RUN		apk add --no-cache php7 php7-fpm php7-opcache php7-gd\
 		php7-gmp php7-pdo_odbc php7-json php7-dom php7-pdo php7-zip php7-sqlite3\
 		php7-apcu php7-pdo_pgsql php7-bcmath php7-odbc php7-pdo_mysql\
 		php7-pdo_sqlite php7-gettext php7-xmlreader php7-xmlrpc php7-bz2\
-		php7-iconv php7-pdo_dblib php7-ctype nginx php7-session php7-mbstring
-#RUN 	apk add telegraf --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
+		php7-iconv php7-pdo_dblib php7-ctype nginx php7-session php7-mbstring screen
+RUN		apk add telegraf --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
 
-#COPY ./telegraf.conf /etc/telegraf/telegraf.conf
+COPY	./telegraf.conf /etc/telegraf/telegraf.conf
 
 RUN		mkdir -p /var/www/
 RUN		wget https://files.phpmyadmin.net/phpMyAdmin/5.1.0/phpMyAdmin-5.1.0-all-languages.tar.gz
@@ -37,5 +37,4 @@ RUN		sed -i 's/nobody/root/g' /etc/php7/php-fpm.d/www.conf
 RUN		echo "clear_env = no" >> /etc/php7/php-fpm.d/www.conf 
 
 EXPOSE	5000
-CMD php-fpm7 -R && nginx -g 'daemon off;'
-#CMD telegraf && php-fpm7 && nginx -g 'daemon off;'
+CMD screen -dmS telegraf_screen && screen -S telegraf_screen -X stuff 'telegraf\n' && php-fpm7 -R && nginx -g 'daemon off;'

@@ -13,6 +13,9 @@
 #!/bin/sh
 if [ -d /root/.influxdb/data ]; then
 	echo "[i] InfluxDB directory already present, skipping DB creation."
+	screen -dmS influxd_screen
+	screen -S influxd_screen -X stuff 'influxd\n'
+	sleep 5
 else
 	echo "[i] InfluxDB data directory is not found, creating initial DB(s)..."
 
@@ -24,8 +27,6 @@ else
 	influx -execute "CREATE DATABASE influx_db" && echo "[i] Database created"
 	influx -execute "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD'" && echo "[i] $DB_USER user created with password $DB_PASSWORD"
 	influx -execute "GRANT ALL ON influx_db TO $DB_USER" && echo "[i] DB permissions granted to user $DB_USER"
-	killall influxd
 fi
 
-#telegraf &
-exec influxd
+telegraf

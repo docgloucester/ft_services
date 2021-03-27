@@ -15,49 +15,45 @@ apiVersion: apps/v1
 kind: Deployment
 metadata: 
   labels: 
-    app: phpmyadmin
-  name: phpmyadmin
+    app: ftps
+  name: ftps
 spec: 
   replicas: 1
   selector: 
     matchLabels: 
-      app: phpmyadmin
+      app: ftps
   template: 
-    metadata: 
+    metadata:
       labels: 
-        app: phpmyadmin
+        app: ftps
     spec: 
       containers:
-      - name: phpmyadmin 
-        env: 
-        - name: DB_HOST
-          value: mysql-entrypoint.default.svc.cluster.local
-        - name: IDB_USER
-          valueFrom: 
-            secretKeyRef:
-              key: user
-              name: influxdb-secret
-        - name: IDB_PASSWORD
-          valueFrom: 
-            secretKeyRef: 
-              key: password
-              name: influxdb-secret
-        image: phpmyadmin
+      - name: ftps
+        image: ftps
         imagePullPolicy: Never
         ports: 
-        - containerPort: 5000
+        - containerPort: 21
+        - containerPort: 20
+        - containerPort: 8975
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-    name: phpmyadmin-entrypoint
+    name: ftps-entrypoint
     annotations:
       metallb.universe.tf/allow-shared-ip: entrypoint
 spec:
   type: LoadBalancer
   selector:
-    app: phpmyadmin
+    app: ftps
   ports:
-  - port: 5000
-    targetPort: 5000
+  - port: 21
+    targetPort: 21
+    name: auth
+  - port: 20
+    targetPort: 20
+    name: data
+  - port: 8975
+    targetPort: 8975
+    name: passv

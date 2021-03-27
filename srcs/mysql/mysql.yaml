@@ -16,7 +16,7 @@ kind: Deployment
 metadata: 
   labels: 
     app: mysql
-  name: mysql-deployment
+  name: mysql
 spec: 
   replicas: 1
   selector: 
@@ -45,6 +45,16 @@ spec:
             secretKeyRef: 
               key: root-password
               name: wp-secret
+        - name: IDB_USER
+          valueFrom: 
+            secretKeyRef:
+              key: user
+              name: influxdb-secret
+        - name: IDB_PASSWORD
+          valueFrom: 
+            secretKeyRef: 
+              key: password
+              name: influxdb-secret
         image: mysql
         imagePullPolicy: Never
         volumeMounts:

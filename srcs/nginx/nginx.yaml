@@ -16,19 +16,30 @@ kind: Deployment
 metadata: 
   labels: 
     app: nginx
-  name: nginx-deployment
+  name: nginx
 spec: 
   replicas: 1
   selector: 
     matchLabels: 
       app: nginx
   template: 
-    metadata: 
+    metadata:
       labels: 
         app: nginx
     spec: 
       containers:
       - name: nginx
+        env:
+        - name: IDB_USER
+          valueFrom: 
+            secretKeyRef:
+              key: user
+              name: influxdb-secret
+        - name: IDB_PASSWORD
+          valueFrom: 
+            secretKeyRef: 
+              key: password
+              name: influxdb-secret
         image: nginx
         imagePullPolicy: Never
         ports: 

@@ -12,10 +12,10 @@
 
 FROM	alpine:latest
 
-RUN		apk add --no-cache mariadb
-#RUN 	apk add telegraf --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
+RUN		apk add --no-cache mariadb screen
+RUN		apk add telegraf --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted --no-cache
 
-#COPY ./telegraf.conf /etc/telegraf/telegraf.conf
+COPY	./telegraf.conf /etc/telegraf/telegraf.conf
 
 COPY my.cnf /etc/mysql/my.cnf
 COPY setup.sh /tmp/setup.sh

@@ -16,7 +16,7 @@ kind: Deployment
 metadata: 
   labels: 
     app: wordpress
-  name: wordpress-deployment
+  name: wordpress
 spec: 
   replicas: 1
   selector: 
@@ -42,6 +42,16 @@ spec:
             secretKeyRef: 
               key: password
               name: wp-secret
+        - name: IDB_USER
+          valueFrom: 
+            secretKeyRef:
+              key: user
+              name: influxdb-secret
+        - name: IDB_PASSWORD
+          valueFrom: 
+            secretKeyRef: 
+              key: password
+              name: influxdb-secret
         image: wordpress
         imagePullPolicy: Never
         ports: 
