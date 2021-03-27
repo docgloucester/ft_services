@@ -29,6 +29,19 @@ spec:
     spec: 
       containers:
       - name: ftps
+        env:
+        - name: IDB_HOST
+          value: influxdb-entrypoint.default.svc.cluster.local
+        - name: IDB_USER
+          valueFrom: 
+            secretKeyRef:
+              key: user
+              name: influxdb-secret
+        - name: IDB_PASSWORD
+          valueFrom: 
+            secretKeyRef: 
+              key: password
+              name: influxdb-secret
         image: ftps
         imagePullPolicy: Never
         ports: 

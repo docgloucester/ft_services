@@ -30,6 +30,8 @@ spec:
       containers:
       - name: nginx
         env:
+        - name: IDB_HOST
+          value: influxdb-entrypoint.default.svc.cluster.local
         - name: IDB_USER
           valueFrom: 
             secretKeyRef:

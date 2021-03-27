@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    mysql.yaml                                         :+:      :+:    :+:    #
+#    wordpress.yaml                                     :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/03/19 04:01:30 by rgilles           #+#    #+#              #
-#    Updated: 2021/03/19 04:01:32 by rgilles          ###   ########.fr        #
+#    Created: 2021/03/07 12:21:47 by rgilles           #+#    #+#              #
+#    Updated: 2021/03/07 12:21:49 by rgilles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,36 +15,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata: 
   labels: 
-    app: mysql
-  name: mysql
+    app: grafana
+  name: grafana
 spec: 
   replicas: 1
   selector: 
     matchLabels: 
-      app: mysql
+      app: grafana
   template: 
     metadata: 
       labels: 
-        app: mysql
+        app: grafana
     spec: 
       containers:
-      - name: mysql
+      - name: grafana
         env:
-        - name: DB_USER
-          valueFrom: 
-            secretKeyRef:
-              key: user
-              name: wp-secret
-        - name: DB_PASSWORD
-          valueFrom: 
-            secretKeyRef: 
-              key: password
-              name: wp-secret
-        - name: DB_ROOTPASSWORD
-          valueFrom: 
-            secretKeyRef: 
-              key: root-password
-              name: wp-secret
         - name: IDB_HOST
           value: influxdb-entrypoint.default.svc.cluster.local
         - name: IDB_USER
@@ -57,26 +42,22 @@ spec:
             secretKeyRef: 
               key: password
               name: influxdb-secret
-        image: mysql
+        image: grafana
         imagePullPolicy: Never
-        volumeMounts:
-        - name: mysql-storage
-          mountPath: /var/lib/mysql
         ports: 
-        - containerPort: 3306
-      volumes:
-      - name: mysql-storage
-        emptyDir: {}
+        - containerPort: 3000
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-    name: mysql-entrypoint
+    name: grafana-entrypoint
+    annotations:
+      metallb.universe.tf/allow-shared-ip: entrypoint
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
-    app: mysql
+    app: grafana
   ports:
-  - port: 3306
-    targetPort: 3306
+  - port: 3000
+    targetPort: 3000

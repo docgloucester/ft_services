@@ -42,6 +42,8 @@ spec:
             secretKeyRef: 
               key: password
               name: wp-secret
+        - name: IDB_HOST
+          value: influxdb-entrypoint.default.svc.cluster.local
         - name: IDB_USER
           valueFrom: 
             secretKeyRef:

@@ -32,6 +32,8 @@ spec:
         env: 
         - name: DB_HOST
           value: mysql-entrypoint.default.svc.cluster.local
+        - name: IDB_HOST
+          value: influxdb-entrypoint.default.svc.cluster.local
         - name: IDB_USER
           valueFrom: 
             secretKeyRef:
