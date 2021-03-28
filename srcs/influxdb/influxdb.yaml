@@ -1,7 +1,7 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    mysql.yaml                                         :+:      :+:    :+:    #
+#    influxdb.yaml                                      :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
@@ -39,6 +39,11 @@ spec:
           valueFrom: 
             secretKeyRef: 
               key: password
+              name: influxdb-secret
+        - name: IDB_ROOTPW
+          valueFrom: 
+            secretKeyRef: 
+              key: rootpw
               name: influxdb-secret
         image: influxdb
         imagePullPolicy: Never

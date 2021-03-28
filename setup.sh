@@ -38,3 +38,6 @@ kubectl apply -f srcs/nginx/nginx.yaml
 
 docker build -t ftps srcs/ftps
 kubectl apply -f srcs/ftps/ftps.yaml
+
+docker build -t grafana srcs/grafana
+kubectl apply -f srcs/grafana/grafana.yaml

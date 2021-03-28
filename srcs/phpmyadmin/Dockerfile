@@ -37,4 +37,4 @@ RUN		sed -i 's/nobody/root/g' /etc/php7/php-fpm.d/www.conf
 RUN		echo "clear_env = no" >> /etc/php7/php-fpm.d/www.conf 
 
 EXPOSE	5000
-CMD screen -dmS telegraf_screen && screen -S telegraf_screen -X stuff 'telegraf\n' && php-fpm7 -R && nginx -g 'daemon off;'
+CMD php-fpm7 -R && screen -dmS telegraf_screen && screen -S telegraf_screen -X stuff 'telegraf\n' && nginx -g 'daemon off;'

@@ -24,9 +24,10 @@ else
 	screen -dmS influxd_screen
 	screen -S influxd_screen -X stuff 'influxd\n'
 	sleep 15
+		influx -execute "CREATE USER admin WITH PASSWORD '$IDB_ROOTPW' WITH ALL PRIVILEGES" && echo "[i] admin user created"
 	influx -execute "CREATE DATABASE influx_db" && echo "[i] Database created"
-	influx -execute "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD'" && echo "[i] $DB_USER user created with password $DB_PASSWORD"
-	influx -execute "GRANT ALL ON influx_db TO $DB_USER" && echo "[i] DB permissions granted to user $DB_USER"
+	influx -execute "CREATE USER $IDB_USER WITH PASSWORD '$IDB_PASSWORD'" && echo "[i] $IDB_USER user created with password $IDB_PASSWORD"
+	influx -execute "GRANT ALL ON influx_db TO $IDB_USER" && echo "[i] DB permissions granted to user $IDB_USER"
 fi
 
 telegraf

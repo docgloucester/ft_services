@@ -1,0 +1,10 @@
+apiVersion: 1
+datasources:
+- name: InfluxDB
+  type: influxdb
+  url: http://${IDB_HOST}:8086
+  access: proxy
+  isDefault: true
+  database: influx_db
+  user: ${IDB_USER}
+  password: ${IDB_PASSWORD}
