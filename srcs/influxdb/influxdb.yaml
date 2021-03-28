@@ -9,7 +9,6 @@
 #    Updated: 2021/03/19 04:01:32 by rgilles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 --- 
 apiVersion: apps/v1
 kind: Deployment
@@ -49,12 +48,13 @@ spec:
         imagePullPolicy: Never
         volumeMounts:
         - name: influxdb-storage
-          mountPath: /root/.influxdb
+          mountPath: /root
         ports: 
         - containerPort: 8086
       volumes:
       - name: influxdb-storage
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: pvc
 
 ---
 apiVersion: v1

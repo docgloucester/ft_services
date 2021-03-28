@@ -37,4 +37,4 @@ EOF
 	/usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --console --user=root --bootstrap < /tmp/db1.sql
 fi
 
-screen -dmS telegraf_screen && screen -S telegraf_screen -X stuff 'telegraf\n' && /usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --user=root --console
+screen -d -m telegraf && /usr/bin/mysqld --defaults-file=/etc/mysql/my.cnf --user=root --console

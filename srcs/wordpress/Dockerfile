@@ -40,4 +40,4 @@ RUN		sed -i 's/nobody/root/g' /etc/php7/php-fpm.d/www.conf
 RUN		echo "clear_env = no" >> /etc/php7/php-fpm.d/www.conf 
 
 EXPOSE	5050
-CMD		php-fpm7 -R && screen -dmS telegraf_screen && screen -S telegraf_screen -X stuff 'telegraf\n' && nginx -g 'daemon off;'
+CMD		php-fpm7 -R && screen -d -m telegraf && nginx -g 'daemon off;'

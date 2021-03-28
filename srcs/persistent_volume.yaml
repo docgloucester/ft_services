@@ -1,0 +1,38 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    persistent_volume.yaml                             :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: rgilles <rgilles@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/03/19 04:01:30 by rgilles           #+#    #+#              #
+#    Updated: 2021/03/19 04:01:32 by rgilles          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: persistent-volume
+  labels:
+    type: local
+spec:
+  storageClassName: pvclass
+  capacity:
+    storage: 50Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/data"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc
+spec:
+  storageClassName: pvclass
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Mi

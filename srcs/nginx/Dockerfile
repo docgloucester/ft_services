@@ -29,4 +29,4 @@ RUN		echo "hello world!!" > /var/www/index.html
 
 EXPOSE	80
 EXPOSE	443
-CMD screen -dmS telegraf_screen && screen -S telegraf_screen -X stuff 'telegraf\n' && nginx -g 'daemon off;'
+CMD screen -d -m telegraf && nginx -g 'daemon off;'

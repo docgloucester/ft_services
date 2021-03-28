@@ -9,8 +9,7 @@
 #    Updated: 2021/03/19 04:01:32 by rgilles          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
---- 
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
@@ -61,12 +60,13 @@ spec:
         imagePullPolicy: Never
         volumeMounts:
         - name: mysql-storage
-          mountPath: /var/lib/mysql
+          mountPath: /var/lib/
         ports: 
         - containerPort: 3306
       volumes:
       - name: mysql-storage
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: pvc
 
 ---
 apiVersion: v1

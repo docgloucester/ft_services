@@ -26,8 +26,9 @@ COPY	./vsftpd.conf /etc/vsftpd
 RUN		yes 'root' | passwd
 
 RUN		echo "hello" > /root/hello.txt
+RUN		echo $'#!/bin/sh\nvsftpd /etc/vsftpd/vsftpd.conf' > /tmp/setup.sh && chmod +x /tmp/setup.sh
 
 EXPOSE	20
 EXPOSE	21
 EXPOSE	8975
-CMD screen -dmS telegraf_screen && screen -S telegraf_screen -X stuff 'telegraf\n' && vsftpd /etc/vsftpd/vsftpd.conf
+CMD		screen -d -m telegraf && /tmp/setup.sh

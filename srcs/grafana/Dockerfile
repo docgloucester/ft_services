@@ -24,4 +24,4 @@ COPY	dashboard.json /usr/share/grafana/conf/provisioning/dashboards/
 WORKDIR /usr/share/grafana
 
 EXPOSE	3000
-CMD 	screen -dmS telegraf_screen && screen -S telegraf_screen -X stuff 'telegraf\n' && grafana-server --config=/etc/grafana.ini
+CMD 	screen -d -m telegraf && grafana-server --config=/etc/grafana.ini

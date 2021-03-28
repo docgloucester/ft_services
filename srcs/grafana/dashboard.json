@@ -113,7 +113,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "CPU - Wordpress",
-      "type": "gauge"
+      "type": "graph"
     },
     {
       "datasource": "InfluxDB",
@@ -210,7 +210,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "CPU - PhpMyAdmin",
-      "type": "gauge"
+      "type": "graph"
     },
     {
       "datasource": "InfluxDB",
@@ -307,7 +307,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "CPU - Nginx",
-      "type": "gauge"
+      "type": "graph"
     },
     {
       "content": "<div style=\"text-align:center; font-size:30px;\" >Nb Process</div>",
@@ -374,7 +374,7 @@
       ],
       "datasource": null,
       "format": "none",
-      "gauge": {
+      "graph": {
         "maxValue": 100,
         "minValue": 0,
         "show": false,
@@ -497,7 +497,7 @@
       ],
       "datasource": null,
       "format": "none",
-      "gauge": {
+      "graph": {
         "maxValue": 100,
         "minValue": 0,
         "show": false,
@@ -620,7 +620,7 @@
       ],
       "datasource": null,
       "format": "none",
-      "gauge": {
+      "graph": {
         "maxValue": 100,
         "minValue": 0,
         "show": false,
@@ -827,7 +827,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "CPU - Mysql",
-      "type": "gauge"
+      "type": "graph"
     },
     {
       "datasource": "InfluxDB",
@@ -924,7 +924,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "CPU - Grafana",
-      "type": "gauge"
+      "type": "graph"
     },
     {
       "datasource": "InfluxDB",
@@ -1021,7 +1021,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "CPU - FTPS",
-      "type": "gauge"
+      "type": "graph"
     },
     {
       "cacheTimeout": null,
@@ -1034,7 +1034,7 @@
       ],
       "datasource": null,
       "format": "none",
-      "gauge": {
+      "graph": {
         "maxValue": 100,
         "minValue": 0,
         "show": false,
@@ -1157,7 +1157,7 @@
       ],
       "datasource": null,
       "format": "none",
-      "gauge": {
+      "graph": {
         "maxValue": 100,
         "minValue": 0,
         "show": false,
@@ -1280,7 +1280,7 @@
       ],
       "datasource": null,
       "format": "none",
-      "gauge": {
+      "graph": {
         "maxValue": 100,
         "minValue": 0,
         "show": false,
@@ -1487,7 +1487,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "CPU - InfluxDB",
-      "type": "gauge"
+      "type": "graph"
     },
     {
       "cacheTimeout": null,
@@ -1500,7 +1500,7 @@
       ],
       "datasource": null,
       "format": "none",
-      "gauge": {
+      "graph": {
         "maxValue": 100,
         "minValue": 0,
         "show": false,
